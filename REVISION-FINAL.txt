@@ -1,0 +1,26 @@
+TU EMPLEO ES HOY - REVISION FINAL
+
+CORRECCIONES REALIZADAS
+1. Se eliminaron bloques de Markdown ``` que estaban dentro de varias paginas HTML.
+2. Se corrigio la verificacion de contrasenas antiguas para evitar errores cuando las longitudes no coinciden.
+3. Se agrego SQLite WAL y busy_timeout para mejorar estabilidad con la base de datos.
+4. Se protegieron los datos de postulantes: /api/postulantes ya no queda disponible para cualquier usuario conectado.
+5. Se agrego ADMIN_EMAILS para definir quienes pueden consultar postulantes.
+6. Se evito mostrar detalles internos de errores del servidor cuando NODE_ENV=production.
+7. Se agrego un manejo claro del error EADDRINUSE (puerto ocupado).
+8. Se actualizo .env.example con la configuracion de ADMIN_EMAILS.
+9. Se actualizo README-DEPLOY.md con las instrucciones adicionales de produccion.
+10. Se revisaron las rutas principales de registro, login, perfil, curriculum, ofertas y postulaciones.
+11. Se verifico la sintaxis de server.js y cookies.js con Node.js.
+12. Se comprobo que la base de datos contiene las tablas users, curriculums, ofertas y postulaciones.
+
+IMPORTANTE ANTES DE PUBLICAR
+- Ejecutar npm install (o npm ci) en el servidor.
+- Configurar NODE_ENV=production.
+- Configurar PORT con el puerto que entregue el hosting.
+- Configurar ADMIN_EMAILS con el correo autorizado para consultar postulantes.
+- Usar HTTPS.
+- El hosting debe tener almacenamiento persistente para database/app.db y curriculums/.
+- Probar registro, login, subida de curriculum, ofertas y postulaciones despues del despliegue.
+
+NO SE INCLUYE node_modules EN EL ZIP.

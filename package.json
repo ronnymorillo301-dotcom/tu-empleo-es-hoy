@@ -1,0 +1,13 @@
+{
+  "name": "tu-empleo-es-hoy",
+  "version": "1.0.0",
+  "description": "Aplicacion de empleo TU EMPLEO ES HOY",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "multer": "^2.0.2"
+  }
+}

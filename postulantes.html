@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mis postulaciones - TU EMPLEO ES HOY</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #0b5ed7;
+            color: white;
+            padding: 18px 25px;
+        }
+
+        .barra {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .contenedor {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #0b5ed7;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .tarjeta h2 {
+            margin-top: 0;
+            color: #0b5ed7;
+        }
+
+        .dato {
+            margin: 8px 0;
+        }
+
+        .estado {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: #e8f5e9;
+            color: #198754;
+            font-weight: bold;
+        }
+
+        #mensaje {
+            text-align: center;
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 750px) {
+            .barra {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="barra">
+
+        <a class="logo" href="index.html">
+            🪖 TU EMPLEO ES HOY
+        </a>
+
+        <nav>
+
+            <a href="index.html">
+                Inicio
+            </a>
+
+            <a href="ofertas.html">
+                Ofertas
+            </a>
+
+            <a href="perfil.html">
+                Mi perfil
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main class="contenedor">
+
+    <h1>
+        📋 Mis postulaciones
+    </h1>
+
+    <p>
+        Aquí puedes consultar los empleos a los que has aplicado.
+    </p>
+
+
+    <div id="mensaje">
+        Cargando postulaciones...
+    </div>
+
+
+    <div id="listaPostulaciones"></div>
+
+</main>
+
+
+<script>
+
+async function cargarPostulaciones() {
+
+    const mensaje =
+        document.getElementById("mensaje");
+
+    const lista =
+        document.getElementById(
+            "listaPostulaciones"
+        );
+
+
+    try {
+
+        const respuesta =
+            await fetch(
+                "/api/mis-postulaciones",
+                {
+                    credentials: "same-origin"
+                }
+            );
+
+
+        const resultado =
+            await respuesta.json();
+
+
+        if (!resultado.ok) {
+
+            mensaje.textContent =
+                "❌ " + resultado.mensaje;
+
+
+            if (
+                resultado.mensaje ===
+                "Debes iniciar sesión."
+            ) {
+
+                setTimeout(function() {
+
+                    window.location.href =
+                        "login.html";
+
+                }, 1200);
+
+            }
+
+            return;
+        }
+
+
+        const postulaciones =
+            resultado.postulaciones || [];
+
+
+        mensaje.style.display =
+            "none";
+
+
+        if (!postulaciones.length) {
+
+            lista.innerHTML = `
+                <div class="tarjeta">
+
+                    <h2>
+                        Todavía no tienes postulaciones.
+                    </h2>
+
+                    <p>
+                        Busca una oferta de empleo y
+                        envía tu primera aplicación.
+                    </p>
+
+                    <a
+                        href="ofertas.html"
+                        style="
+                            display:inline-block;
+                            margin-top:10px;
+                            padding:12px 18px;
+                            background:#0b5ed7;
+                            color:white;
+                            text-decoration:none;
+                            border-radius:7px;
+                            font-weight:bold;
+                        "
+                    >
+                        🔎 Buscar empleos
+                    </a>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        lista.innerHTML =
+            postulaciones.map(
+                postulacion => `
+
+                <div class="tarjeta">
+
+                    <h2>
+                        ${escapeHTML(
+                            postulacion.titulo
+                        )}
+                    </h2>
+
+                    <div class="dato">
+                        🏢 <strong>Empresa:</strong>
+                        ${escapeHTML(
+                            postulacion.empresa
+                        )}
+                    </div>
+
+                    <div class="dato">
+                        📍 <strong>Ubicación:</strong>
+                        ${escapeHTML(
+                            postulacion.ubicacion
+                        )}
+                    </div>
+
+                    ${
+                        postulacion.salario
+                        ?
+                        `
+                        <div class="dato">
+                            💰 <strong>Salario:</strong>
+                            ${escapeHTML(
+                                postulacion.salario
+                            )}
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+                    <div class="dato">
+                        📅 <strong>Fecha de aplicación:</strong>
+                        ${escapeHTML(
+                            postulacion.fecha_postulacion
+                        )}
+                    </div>
+
+                    <div class="estado">
+                        ✅ Aplicación enviada
+                    </div>
+
+                </div>
+
+            `
+            ).join("");
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensaje.textContent =
+            "❌ No se pudo conectar con el servidor.";
+
+    }
+
+}
+
+
+function escapeHTML(texto) {
+
+    return String(texto || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+cargarPostulaciones();
+
+</script>
+
+</body>
+
+</html>
