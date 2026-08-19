@@ -4,10 +4,14 @@
   "description": "Aplicacion de empleo TU EMPLEO ES HOY",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "check": "node --check server.js"
   },
   "dependencies": {
     "better-sqlite3": "^13.0.3",
     "multer": "^2.0.2"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }

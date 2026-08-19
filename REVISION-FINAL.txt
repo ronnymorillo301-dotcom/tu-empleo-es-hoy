@@ -1,26 +1,28 @@
-TU EMPLEO ES HOY - REVISION FINAL
+TU EMPLEO ES HOY - REVISION PARA NUEVO DESPLIEGUE
 
-CORRECCIONES REALIZADAS
-1. Se eliminaron bloques de Markdown ``` que estaban dentro de varias paginas HTML.
-2. Se corrigio la verificacion de contrasenas antiguas para evitar errores cuando las longitudes no coinciden.
-3. Se agrego SQLite WAL y busy_timeout para mejorar estabilidad con la base de datos.
-4. Se protegieron los datos de postulantes: /api/postulantes ya no queda disponible para cualquier usuario conectado.
-5. Se agrego ADMIN_EMAILS para definir quienes pueden consultar postulantes.
-6. Se evito mostrar detalles internos de errores del servidor cuando NODE_ENV=production.
-7. Se agrego un manejo claro del error EADDRINUSE (puerto ocupado).
-8. Se actualizo .env.example con la configuracion de ADMIN_EMAILS.
-9. Se actualizo README-DEPLOY.md con las instrucciones adicionales de produccion.
-10. Se revisaron las rutas principales de registro, login, perfil, curriculum, ofertas y postulaciones.
-11. Se verifico la sintaxis de server.js y cookies.js con Node.js.
-12. Se comprobo que la base de datos contiene las tablas users, curriculums, ofertas y postulaciones.
+CORRECCIONES APLICADAS
+1. Se verificó y corrigió la estructura del proyecto para que server.js y package.json estén en la raíz.
+2. Se mantiene frontend/index.html como página principal de /.
+3. Se mantiene el uso de process.env.PORT para Railway.
+4. Se agregó healthcheck en /api/estado.
+5. Se agregó railway.json con comando de inicio y reinicio automático.
+6. Se agregó nixpacks.toml para usar Node.js 20 y npm ci.
+7. Se agregó engines en package.json para fijar Node 20.x.
+8. Se ampliaron los tipos MIME para recursos estáticos.
+9. Se agregó soporte HEAD y manejo de errores al servir archivos.
+10. Se verificó la sintaxis de server.js.
+11. Se conservaron las funciones de registro, login, perfil, curriculum, ofertas y postulaciones.
+12. Se conserva la protección de /api/postulantes mediante ADMIN_EMAILS.
+13. Se conserva la base de datos database/app.db y la carpeta curriculums.
+14. No se incluye node_modules para evitar subir dependencias innecesarias.
 
-IMPORTANTE ANTES DE PUBLICAR
-- Ejecutar npm install (o npm ci) en el servidor.
+ANTES DE SUBIR
+- El servicio debe usar la raíz del proyecto, no la carpeta frontend.
+- Ejecutar/permitir npm ci y npm start.
 - Configurar NODE_ENV=production.
-- Configurar PORT con el puerto que entregue el hosting.
-- Configurar ADMIN_EMAILS con el correo autorizado para consultar postulantes.
-- Usar HTTPS.
-- El hosting debe tener almacenamiento persistente para database/app.db y curriculums/.
-- Probar registro, login, subida de curriculum, ofertas y postulaciones despues del despliegue.
+- Configurar ADMIN_EMAILS con el correo administrador.
+- Para conservar datos, configurar almacenamiento persistente para database/app.db y curriculums/.
 
-NO SE INCLUYE node_modules EN EL ZIP.
+PRUEBA RÁPIDA
+La URL /api/estado debe responder:
+{"ok":true,"mensaje":"Servidor funcionando correctamente.","aplicacion":"TU EMPLEO ES HOY"}

@@ -1,47 +1,52 @@
-# TU EMPLEO ES HOY — preparación para producción
+# TU EMPLEO ES HOY — versión lista para publicar
 
-## Requisitos
-- Node.js 20 o superior
-- npm
+## Estructura
+Los archivos importantes están en la raíz del proyecto:
+- `server.js`
+- `package.json`
+- `package-lock.json`
+- `frontend/`
+- `database/app.db`
+- `curriculums/`
 
-## Instalación
-```bash
-npm install
-```
+**No muevas `server.js` ni `package.json` dentro de `frontend`.**
 
-## Inicio local
+## Railway
+Configura el servicio para usar la carpeta raíz del proyecto (donde están `package.json` y `server.js`).
+
+El comando de inicio es:
 ```bash
 npm start
 ```
 
-## Producción
-La aplicación usa `process.env.PORT` y puede ejecutarse con:
-```bash
-NODE_ENV=production npm start
+Railway también puede leer `railway.json` incluido en este proyecto.
+
+Variables recomendadas:
+```text
+NODE_ENV=production
+ADMIN_EMAILS=tu-correo@dominio.com
 ```
 
-### Importante sobre almacenamiento
-Esta versión utiliza SQLite (`database/app.db`) y guarda currículums en `curriculums/`.
-El servicio de alojamiento debe ofrecer almacenamiento persistente para ambos. No se debe desplegar en un entorno donde el disco sea efímero si se quiere conservar usuarios, ofertas, postulaciones y currículums.
+No es necesario fijar `PORT`; Railway lo proporciona automáticamente.
 
-### Seguridad incluida
-- Contraseñas nuevas almacenadas con `crypto.scryptSync` y salt aleatorio.
-- Migración automática de contraseñas antiguas en texto plano al iniciar el servidor.
-- Sesiones con tokens aleatorios, cookie HttpOnly y duración limitada.
-- Cookie `Secure` en producción.
-- Encabezados HTTP básicos de seguridad.
-- Límite de 5 MB y tipos PDF/DOC/DOCX para currículums.
+## Almacenamiento
+SQLite y los currículums se guardan en:
+- `database/app.db`
+- `curriculums/`
 
-## Antes de publicar
-- Usar HTTPS.
-- Configurar almacenamiento persistente para `database/app.db` y `curriculums/`.
-- Configurar `NODE_ENV=production`.
-- Configurar el puerto que entregue la plataforma.
-- Hacer una prueba de registro, login, subida de CV, oferta y postulación después del despliegue.
+Para conservarlos después de reinicios/redeploys, usa almacenamiento persistente/Volume en el servicio.
 
-## Protección del panel de postulantes
-La ruta `/api/postulantes` está restringida a los correos definidos en `ADMIN_EMAILS`.
-Configura esa variable en el servicio de alojamiento antes de publicar.
+## Prueba después de publicar
+1. Abre la URL principal.
+2. Comprueba que aparece la página de inicio.
+3. Abre `/api/estado`; debe responder con `ok: true`.
+4. Registra una cuenta.
+5. Inicia sesión.
+6. Sube un currículum PDF/DOC/DOCX de máximo 5 MB.
+7. Publica una oferta.
+8. Prueba una postulación.
 
-## Dependencias
-No es necesario subir `node_modules/`. La plataforma debe ejecutar `npm install` o `npm ci`.
+## Importante
+No subas `node_modules/`. El servidor instala las dependencias con `npm ci`.
+
+La aplicación está preparada para Node.js 20.x por estabilidad con `better-sqlite3`.

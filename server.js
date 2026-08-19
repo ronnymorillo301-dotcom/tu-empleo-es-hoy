@@ -814,7 +814,19 @@ function servirArchivo(
             "image/svg+xml",
 
         ".ico":
-            "image/x-icon"
+            "image/x-icon",
+
+        ".webp":
+            "image/webp",
+
+        ".woff":
+            "font/woff",
+
+        ".woff2":
+            "font/woff2",
+
+        ".txt":
+            "text/plain; charset=utf-8"
 
     };
 
@@ -829,9 +841,18 @@ function servirArchivo(
     );
 
 
-    fs.createReadStream(
-        ruta
-    ).pipe(res);
+    if (res.req && res.req.method === "HEAD") {
+        res.end();
+        return;
+    }
+
+    fs.createReadStream(ruta).on("error", () => {
+        if (!res.headersSent) {
+            responderTexto(res, 500, "No se pudo leer el archivo.");
+        } else {
+            res.destroy();
+        }
+    }).pipe(res);
 
 }
 
@@ -898,7 +919,7 @@ const server =
                 // ==========================================
 
                 if (
-                    req.method === "GET" &&
+                    (req.method === "GET" || req.method === "HEAD") &&
                     (
                         ruta.endsWith(".html") ||
                         ruta.endsWith(".css") ||
@@ -908,7 +929,11 @@ const server =
                         ruta.endsWith(".jpeg") ||
                         ruta.endsWith(".gif") ||
                         ruta.endsWith(".svg") ||
-                        ruta.endsWith(".ico")
+                        ruta.endsWith(".ico") ||
+                        ruta.endsWith(".webp") ||
+                        ruta.endsWith(".woff") ||
+                        ruta.endsWith(".woff2") ||
+                        ruta.endsWith(".txt")
                     )
                 ) {
 
