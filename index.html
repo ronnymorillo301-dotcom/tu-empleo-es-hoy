@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="TU EMPLEO ES HOY - Plataforma para buscar empleos y conectar talentos con oportunidades laborales.">
+
+    <meta name="robots"
+          content="index, follow">
+
+    <title>TU EMPLEO ES HOY</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #0b5ed7;
+            color: white;
+            padding: 18px 25px;
+        }
+
+        .barra {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 9px 14px;
+            border-radius: 7px;
+            transition: 0.2s;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.18);
+        }
+
+        .hero {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 55px 25px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            margin-bottom: 15px;
+            color: #0b5ed7;
+        }
+
+        .hero p {
+            font-size: 19px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .botones {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .boton {
+            display: inline-block;
+            padding: 14px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .boton:hover {
+            transform: translateY(-2px);
+        }
+
+        .principal {
+            background: #0b5ed7;
+            color: white;
+        }
+
+        .secundario {
+            background: white;
+            color: #0b5ed7;
+            border: 2px solid #0b5ed7;
+        }
+
+        .contenedor {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px 25px 60px;
+        }
+
+        .titulo-seccion {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .titulo-seccion h2 {
+            color: #0b5ed7;
+            margin-bottom: 10px;
+        }
+
+        .tarjetas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-4px);
+        }
+
+        .icono {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .tarjeta h3 {
+            margin-top: 0;
+        }
+
+        .seguridad {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .seguridad h2 {
+            color: #0b5ed7;
+            margin-top: 0;
+        }
+
+        .seguridad ul {
+            line-height: 1.9;
+        }
+
+        .enlaces-legales {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .enlaces-legales a {
+            color: #0b5ed7;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .enlaces-legales a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 30px;
+        }
+
+        footer p {
+            margin: 8px 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .nota {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 750px) {
+
+            .barra {
+                flex-direction: column;
+            }
+
+            .hero {
+                margin: 20px auto;
+                padding: 35px 20px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .tarjetas {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                width: 100%;
+            }
+
+            nav a {
+                font-size: 14px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="barra">
+
+        <div class="logo">
+            🪖 TU EMPLEO ES HOY
+        </div>
+
+        <nav>
+
+            <a href="index.html">
+                Inicio
+            </a>
+
+            <a href="ofertas.html">
+                Ofertas
+            </a>
+
+            <a href="login.html">
+                Iniciar sesión
+            </a>
+
+            <a href="registro.html">
+                Crear cuenta
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>
+        Encuentra tu próximo empleo
+    </h1>
+
+    <p>
+        Bienvenido a <strong>TU EMPLEO ES HOY</strong>,
+        una plataforma creada para conectar personas
+        que buscan trabajo con empresas que necesitan
+        nuevos talentos.
+    </p>
+
+    <div class="botones">
+
+        <a
+            class="boton principal"
+            href="ofertas.html">
+            🔎 Buscar empleo
+        </a>
+
+        <a
+            class="boton secundario"
+            href="registro.html">
+            👤 Crear mi cuenta
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="contenedor">
+
+    <div class="titulo-seccion">
+
+        <h2>
+            Todo lo que necesitas para buscar empleo
+        </h2>
+
+        <p>
+            Crea tu perfil, sube tu currículum y comienza
+            a encontrar oportunidades.
+        </p>
+
+    </div>
+
+
+    <div class="tarjetas">
+
+        <div class="tarjeta">
+
+            <div class="icono">
+                🔎
+            </div>
+
+            <h3>
+                Busca empleos
+            </h3>
+
+            <p>
+                Encuentra oportunidades de trabajo
+                disponibles y revisa sus detalles.
+            </p>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="icono">
+                📄
+            </div>
+
+            <h3>
+                Sube tu currículum
+            </h3>
+
+            <p>
+                Guarda tu currículum en tu perfil
+                para poder aplicar rápidamente.
+            </p>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="icono">
+                🤝
+            </div>
+
+            <h3>
+                Aplica a empleos
+            </h3>
+
+            <p>
+                Envía tus postulaciones directamente
+                desde la plataforma.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="seguridad">
+
+        <h2>
+            🔐 Tu seguridad es importante
+        </h2>
+
+        <p>
+            Estamos trabajando para proteger la información
+            de las personas que utilizan TU EMPLEO ES HOY.
+        </p>
+
+        <ul>
+
+            <li>
+                🔒 Las contraseñas se protegen mediante
+                mecanismos criptográficos.
+            </li>
+
+            <li>
+                🛡️ Las sesiones tienen protección y
+                expiración.
+            </li>
+
+            <li>
+                🔑 Existe un sistema para recuperar
+                la contraseña de forma segura.
+            </li>
+
+            <li>
+                🚫 Se aplican límites contra intentos
+                repetidos de acceso.
+            </li>
+
+            <li>
+                📄 Los currículums tienen restricciones
+                de tipo y tamaño de archivo.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <div class="enlaces-legales">
+
+        <a href="politica-privacidad.html">
+            🔒 Política de Privacidad
+        </a>
+
+        <a href="cookies.html">
+            🍪 Política de Cookies
+        </a>
+
+        <a href="terminos.html">
+            📋 Términos y condiciones
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>
+        © 2026 TU EMPLEO ES HOY
+    </p>
+
+    <p>
+        Tu próxima oportunidad puede comenzar hoy.
+    </p>
+
+    <p class="nota">
+        Protegemos tu información y trabajamos
+        continuamente para mejorar la seguridad.
+    </p>
+
+    <p>
+
+        <a href="politica-privacidad.html">
+            Privacidad
+        </a>
+
+        &nbsp; | &nbsp;
+
+        <a href="cookies.html">
+            Cookies
+        </a>
+
+    </p>
+
+</footer>
+
+
+<script src="cookies.js"></script>
+
+</body>
+
+</html>
