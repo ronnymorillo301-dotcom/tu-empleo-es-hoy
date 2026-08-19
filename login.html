@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iniciar sesión - TU EMPLEO ES HOY</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #0b5ed7;
+            padding: 18px 25px;
+            color: white;
+        }
+
+        .barra {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .inicio {
+            color: white;
+            text-decoration: none;
+        }
+
+        .contenedor {
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0b5ed7;
+            margin-top: 0;
+        }
+
+        .descripcion {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 15px 0 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0b5ed7;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #0b5ed7;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #084298;
+        }
+
+        #mensaje {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .registro {
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        .registro a {
+            color: #0b5ed7;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="barra">
+
+        <a class="logo" href="index.html">
+            🪖 TU EMPLEO ES HOY
+        </a>
+
+        <a class="inicio" href="index.html">
+            Inicio
+        </a>
+
+    </div>
+
+</header>
+
+
+<div class="contenedor">
+
+    <div class="tarjeta">
+
+        <h1>Iniciar sesión</h1>
+
+        <p class="descripcion">
+            Entra a tu cuenta para continuar.
+        </p>
+
+
+        <form id="formLogin">
+
+            <label for="correo">
+                Correo electrónico
+            </label>
+
+            <input
+                type="email"
+                id="correo"
+                placeholder="ejemplo@correo.com"
+                required
+            >
+
+
+            <label for="contrasena">
+                Contraseña
+            </label>
+
+            <input
+                type="password"
+                id="contrasena"
+                placeholder="Tu contraseña"
+                required
+            >
+
+
+            <button type="submit">
+                Iniciar sesión
+            </button>
+
+        </form>
+
+
+        <div id="mensaje"></div>
+
+
+        <div class="registro">
+
+            ¿No tienes una cuenta?
+
+            <a href="registro.html">
+                Crear cuenta
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const formulario = document.getElementById("formLogin");
+const mensaje = document.getElementById("mensaje");
+
+formulario.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    mensaje.textContent = "Iniciando sesión...";
+    mensaje.style.color = "#555";
+
+    const datos = {
+
+        correo: document.getElementById("correo").value.trim(),
+
+        contrasena: document.getElementById("contrasena").value
+
+    };
+
+
+    try {
+
+        const respuesta = await fetch("/api/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            credentials: "same-origin",
+
+            body: JSON.stringify(datos)
+
+        });
+
+
+        const resultado = await respuesta.json();
+
+
+        if (resultado.ok) {
+
+            mensaje.textContent =
+                "✅ Inicio de sesión correcto.";
+
+            mensaje.style.color = "green";
+
+            setTimeout(function() {
+
+                window.location.href = "perfil.html";
+
+            }, 700);
+
+        } else {
+
+            mensaje.textContent =
+                "❌ " + resultado.mensaje;
+
+            mensaje.style.color = "red";
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensaje.textContent =
+            "❌ No se pudo conectar con el servidor.";
+
+        mensaje.style.color = "red";
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>
